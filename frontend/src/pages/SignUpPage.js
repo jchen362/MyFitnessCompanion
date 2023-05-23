@@ -22,13 +22,20 @@ class SignUpPage extends React.Component {
     async submit() {
         let u = this.state.usernameContent;
         let p = this.state.passwordContent;
-        try {
-            await axios.post("http://localhost:3000/", {
-                u, p
-            })
-        } catch {
+        console.log("attempting to send sign up info");
+        const response = await fetch("http://localhost:3001/api/register", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                u,
+                p
+            }),
+        });
 
-        }
+        const data = await response.json();
+        console.log(data);
     }
 
     render() {
@@ -63,12 +70,14 @@ class SignUpPage extends React.Component {
                         <KeyIcon/>
                     </InputAdornment>),
                 }}
-            type = {this.state.password} value = {this.state.paasswordContent} onChange = {(e) => {
-                this.setState({paasswordContent: e.target.value})
+            type = {this.state.password} value = {this.state.passwordContent} onChange = {(e) => {
+                this.setState({passwordContent: e.target.value})
             }}></TextField>
             <div style = {{width: "100%", height: "20px"}}></div>
             <div style = {{width: "100%", height: "40px", display:"flex", justifyContent: "center", flexDirection: "row"}}>
-                <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}}>Sign up</Button>
+                <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}} onClick = {() => {
+                    this.submit();
+                }}>Sign up</Button>
                 <div style = {{width: "20px", height: "100%"}}></div>
                 <Link to = "/" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Back to Login</Link>
             </div>
