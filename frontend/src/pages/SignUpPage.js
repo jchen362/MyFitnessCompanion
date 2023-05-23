@@ -3,20 +3,33 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import KeyIcon from '@mui/icons-material/Key';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { useInRouterContext, useNavigate, Link } from "react-router-dom";
 import "./LoginPage.css";
+import axios from "axios";
 
-class LoginPage extends React.Component {
+
+class SignUpPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            password: "password",
+            password: "text",
             usernameContent: "",
             passwordContent: "",
         };
     }
     
+    async submit() {
+        let u = this.state.usernameContent;
+        let p = this.state.passwordContent;
+        try {
+            await axios.post("http://localhost:3000/", {
+                u, p
+            })
+        } catch {
+
+        }
+    }
 
     render() {
 
@@ -29,25 +42,20 @@ class LoginPage extends React.Component {
             }
         }
 
-
     return(
         <div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}>
-            {/**Title screen and blank space */}
             <div style = {{width:"100%", height:"100px"}}></div>
             <div style = {{width: "100%", height: "50px", textAlign: "center", fontSize: "45px", fontFamily: "Roboto", color: "rgba(113, 176, 255, 0.8)"}}>
                 MyFitnessCompanion
             </div>
             <div style = {{width: "100%", height: "50px"}}></div>
             <div style = {{width:"100%", height:"50px", textAlign: "center", fontSize: "30px", fontFamily: "Roboto"}}>
-                Let's get Jacked Together!
+                Create Your Account Below
             </div>
-            {/**Username textfield */}
-            <TextField label = "Enter Username" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent}
-                onChange = {(e) => {
-                    this.setState({usernameContent: e.target.value})
-                }}/>
+            <TextField label = "Enter Username" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent} onChange = {(e) => {
+                this.setState({usernameContent: e.target.value})
+            }}/>
             <div style = {{width: "100%", height: "20px"}}></div>
-            {/**Password textfield */}
             <TextField label = "Enter Password" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} 
                 InputProps = {{
                     endAdornment: (
@@ -55,21 +63,17 @@ class LoginPage extends React.Component {
                         <KeyIcon/>
                     </InputAdornment>),
                 }}
-            type = {this.state.password} value = {this.state.passwordContent} onChange = {(e) => {
-                this.setState({passwordContent: e.target.value})
+            type = {this.state.password} value = {this.state.paasswordContent} onChange = {(e) => {
+                this.setState({paasswordContent: e.target.value})
             }}></TextField>
-            {/**Button for Sign up and Log in */}
             <div style = {{width: "100%", height: "20px"}}></div>
             <div style = {{width: "100%", height: "40px", display:"flex", justifyContent: "center", flexDirection: "row"}}>
-                <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}} onClick = {() => {
-                    console.log(this.state.usernameContent);
-                    console.log(this.state.passwordContent);
-                }}>Log in</Button>
+                <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}}>Sign up</Button>
                 <div style = {{width: "20px", height: "100%"}}></div>
-                <Link to = "signup" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Sign up</Link>
+                <Link to = "/" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Back to Login</Link>
             </div>
         </div>
     );}
 }
 
-export default LoginPage
+export default SignUpPage
