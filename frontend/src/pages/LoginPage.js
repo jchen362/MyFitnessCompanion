@@ -16,6 +16,31 @@ class LoginPage extends React.Component {
             passwordContent: "",
         };
     }
+
+    async submit() {
+        let user = this.state.usernameContent;
+        let pass = this.state.passwordContent;
+        console.log("attempting to login");
+        const response = await fetch("http://localhost:3001/api/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user,
+                pass
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.user) {
+            console.log("logged in successfully");
+        } else {
+            console.log("failed to log in");
+        }
+        console.log(data);
+    }
     
 
     render() {
@@ -62,8 +87,7 @@ class LoginPage extends React.Component {
             <div style = {{width: "100%", height: "20px"}}></div>
             <div style = {{width: "100%", height: "40px", display:"flex", justifyContent: "center", flexDirection: "row"}}>
                 <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}} onClick = {() => {
-                    console.log(this.state.usernameContent);
-                    console.log(this.state.passwordContent);
+                    this.submit();
                 }}>Log in</Button>
                 <div style = {{width: "20px", height: "100%"}}></div>
                 <Link to = "signup" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Sign up</Link>

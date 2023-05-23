@@ -20,8 +20,8 @@ class SignUpPage extends React.Component {
     }
     
     async submit() {
-        let u = this.state.usernameContent;
-        let p = this.state.passwordContent;
+        let user = this.state.usernameContent;
+        let pass = this.state.passwordContent;
         console.log("attempting to send sign up info");
         const response = await fetch("http://localhost:3001/api/register", {
             method: "POST",
@@ -29,8 +29,8 @@ class SignUpPage extends React.Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                u,
-                p
+                user,
+                pass
             }),
         });
 
