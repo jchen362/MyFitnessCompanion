@@ -51,6 +51,7 @@ app.post("/api/register", async (req, res) => {
         await User.create({
             username: req.body.user,
             password: req.body.pass,
+            name: req.body.name,
         });
         res.json({status: "created a new account"});
     } catch (err) {

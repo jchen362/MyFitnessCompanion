@@ -69,7 +69,7 @@ class LoginPage extends React.Component {
                 Let's get Jacked Together!
             </div>
             {/**Username textfield */}
-            <TextField label = "Enter Username" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent}
+            <TextField label = "Enter Email" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent}
                 onChange = {(e) => {
                     this.setState({usernameContent: e.target.value})
                 }}/>

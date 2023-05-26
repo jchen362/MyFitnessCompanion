@@ -13,15 +13,17 @@ class SignUpPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: "text",
+            password: "password",
             usernameContent: "",
             passwordContent: "",
+            nameContent: "",
         };
     }
     
     async submit() {
         let user = this.state.usernameContent;
         let pass = this.state.passwordContent;
+        let name = this.state.nameContent;
         console.log("attempting to send sign up info");
         const response = await fetch("http://localhost:3001/api/register", {
             method: "POST",
@@ -30,7 +32,8 @@ class SignUpPage extends React.Component {
             },
             body: JSON.stringify({
                 user,
-                pass
+                pass,
+                name
             }),
         });
 
@@ -59,8 +62,12 @@ class SignUpPage extends React.Component {
             <div style = {{width:"100%", height:"50px", textAlign: "center", fontSize: "30px", fontFamily: "Roboto"}}>
                 Create Your Account Below
             </div>
-            <TextField label = "Enter Username" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent} onChange = {(e) => {
+            <TextField label = "Enter Email" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent} onChange = {(e) => {
                 this.setState({usernameContent: e.target.value})
+            }}/>
+            <div style = {{width: "100%", height: "20px"}}></div>
+            <TextField label = "Enter Name" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.nameContent} onChange = {(e) => {
+                this.setState({nameContent: e.target.value})
             }}/>
             <div style = {{width: "100%", height: "20px"}}></div>
             <TextField label = "Enter Password" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} 
