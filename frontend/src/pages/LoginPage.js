@@ -3,13 +3,13 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import KeyIcon from '@mui/icons-material/Key';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate, navigate } from "react-router-dom";
 import "./LoginPage.css";
 
 class LoginPage extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             password: "password",
             usernameContent: "",
@@ -36,10 +36,12 @@ class LoginPage extends React.Component {
 
         if (data.user) {
             console.log("logged in successfully");
+            this.props.navigation("homepage", {state:{
+                token: data.user,
+            }});
         } else {
             console.log("failed to log in");
         }
-        console.log(data);
     }
     
 
@@ -94,6 +96,11 @@ class LoginPage extends React.Component {
             </div>
         </div>
     );}
+}
+
+export function LoginWithRouter(props) {
+    const navigation = useNavigate();
+    return (<LoginPage navigation = {navigation}/>);
 }
 
 export default LoginPage

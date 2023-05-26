@@ -85,4 +85,9 @@ class SignUpPage extends React.Component {
     );}
 }
 
+export function SignUpWithRouter() {
+    const navigate = useNavigate();
+    return (<SignUpPage navigate = {navigate}/>);
+}
+
 export default SignUpPage

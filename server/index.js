@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 //connect to mongodb database
-const uri = "mongodb+srv://jianweimatthewchen:dylDWducxE6n2mTh@myfitnesscompanion.mtmldim.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.DATABASE;
 
 try {
     mongoose.connect(uri);
@@ -23,6 +23,11 @@ try {
 //run server
 app.listen(3001, () => {
     console.log("Server has started on port 3001");
+});
+
+//verify
+app.post("/api/verify", async (req, res, next) => {
+    jwt.verify(req.body.token, process.env.DATABASE)
 });
 
 //register
@@ -48,8 +53,11 @@ app.post("/api/login", async (req, res) => {
     if (user) {
         const token = jwt.sign({
             username: req.body.user,
+            password: req.body.pass,
 
-        }, "testsecret123");
+        }, process.env.GENERATOR, {
+            expiresIn: 10,
+        });
 
         res.json({status: "successfully logged in", user: token});
     } else {
