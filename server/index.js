@@ -25,10 +25,25 @@ app.listen(3001, () => {
     console.log("Server has started on port 3001");
 });
 
-//verify
-app.post("/api/verify", async (req, res, next) => {
-    jwt.verify(req.body.token, process.env.DATABASE)
+//verify function
+function verify(req) {
+    try {
+        jwt.verify(req.body.token, process.env.GENERATOR);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+//verification
+app.post("/api/verify", async (req, res) => {
+    if (verify(req)) {
+        res.json({status: "session verified", user: req.body.token});
+    } else {
+        res.json({status: "invalid token", user: false});
+    }
 });
+
 
 //register
 app.post("/api/register", async (req, res) => {
@@ -56,7 +71,7 @@ app.post("/api/login", async (req, res) => {
             password: req.body.pass,
 
         }, process.env.GENERATOR, {
-            expiresIn: 10,
+            expiresIn: '10m',
         });
 
         res.json({status: "successfully logged in", user: token});
