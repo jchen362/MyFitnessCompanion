@@ -4,6 +4,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import KeyIcon from '@mui/icons-material/Key';
 import Button from '@mui/material/Button';
 import { Link, useNavigate, navigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./LoginPage.css";
 
 class LoginPage extends React.Component {
@@ -58,7 +59,11 @@ class LoginPage extends React.Component {
 
 
     return(
-        <div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}>
+        <motion.div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}
+            initial = {{opacity: 0}}
+            animate = {{opacity: 1}}
+            exit = {{opacity: 0}}
+        >
             {/**Title screen and blank space */}
             <div style = {{width:"100%", height:"100px"}}></div>
             <div style = {{width: "100%", height: "50px", textAlign: "center", fontSize: "45px", fontFamily: "Roboto", color: "rgba(113, 176, 255, 0.8)"}}>
@@ -94,7 +99,7 @@ class LoginPage extends React.Component {
                 <div style = {{width: "20px", height: "100%"}}></div>
                 <Link to = "signup" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Sign up</Link>
             </div>
-        </div>
+        </motion.div>
     );}
 }
 

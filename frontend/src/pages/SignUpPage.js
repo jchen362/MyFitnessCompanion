@@ -5,6 +5,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import Button from '@mui/material/Button';
 import { useInRouterContext, useNavigate, Link } from "react-router-dom";
 import "./LoginPage.css";
+import { motion } from "framer-motion";
 import axios from "axios";
 
 
@@ -53,7 +54,11 @@ class SignUpPage extends React.Component {
         }
 
     return(
-        <div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}>
+        <motion.div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}
+            initial = {{opacity: 0}}
+            animate = {{opacity: 1}}
+            exit = {{opacity: 0}}
+        >
             <div style = {{width:"100%", height:"100px"}}></div>
             <div style = {{width: "100%", height: "50px", textAlign: "center", fontSize: "45px", fontFamily: "Roboto", color: "rgba(113, 176, 255, 0.8)"}}>
                 MyFitnessCompanion
@@ -88,7 +93,7 @@ class SignUpPage extends React.Component {
                 <div style = {{width: "20px", height: "100%"}}></div>
                 <Link to = "/" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Back to Login</Link>
             </div>
-        </div>
+        </motion.div>
     );}
 }
 
