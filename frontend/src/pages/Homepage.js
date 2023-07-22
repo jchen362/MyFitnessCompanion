@@ -3,12 +3,22 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import Navbar from "./components/navbar";
 import { motion } from "framer-motion";
 import { Line } from 'react-chartjs-2';
-import {userData} from "./components/data";
+import {userData, userDataSec} from "./components/data";
 import {Chart as ChartJS} from "chart.js/auto";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import IconButton from '@mui/material/IconButton';
+import 'chartjs-adapter-date-fns';
+
+import {
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    Tooltip,
+    Legend
+} from 'chart.js';
 
 class Homepage extends React.Component {
     constructor(props) {
@@ -16,13 +26,11 @@ class Homepage extends React.Component {
         this.state = {
             token: this.props.location.state.token,
             weightData: {
-                labels: userData.map((data) => data.date),
-                datasets: [
-                    {
-                        label: "Weight Chart",
-                        data: userData.map((data) => data.weight),
-                    }
-                ]
+                labels: userDataSec.map(row => row.x),
+                datasets: [{
+                    labels: "Weight Data",
+                    data: userDataSec.map(row => row.y)
+                }],
             },
             options: {
                 responsive: true,
@@ -31,7 +39,12 @@ class Homepage extends React.Component {
                         display: true,
                         text: "Weight Tracking Chart"
                     }
-                }
+                },
+                scales: {
+                    x: {
+                        type: "time",
+                    }
+                },
             },
             addWeight: 0,
             
@@ -65,7 +78,6 @@ class Homepage extends React.Component {
     async uploadData(p) {
         let token = p.location.state.token;
         let weight = this.state.addWeight;
-        
         const response = await fetch("http://localhost:3001/api/upload", {
             method: "POST",
             headers: {
@@ -82,9 +94,10 @@ class Homepage extends React.Component {
             console.log("weight failed to upload");
         } else {
             console.log("weight uploaded successfully");
+            this.downloadData(p);
         }
     }
-    
+
 
     async downloadData(p) {
         let token = p.location.state.token;
@@ -99,14 +112,27 @@ class Homepage extends React.Component {
         });
 
         const data = await response.json();
-        if (data.user === false) {
+        let dataset = []
+        if (data.data === false) {
             console.log("failed to get data");
-        } else {
-            console.log("got data successfully");
+            return
         }
+        const parsed = data.data[0];
+        for (let i = 0; i < parsed.times.length; i++) {
+            dataset.push({x: parsed.epochs[i], y: parseInt(parsed.weight[i])})
+        }
+        this.setState({weightData: {
+            datasets: [
+                {
+                    label: "Weight Chart",
+                    data: dataset,
+                }
+            ]
+        }});
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.downloadData(this.props);
         this.interval = setInterval(this.verifySession, 60000, this.props);
     }
 

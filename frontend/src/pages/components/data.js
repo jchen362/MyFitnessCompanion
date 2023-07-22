@@ -1,42 +1,37 @@
 export const userData = [
     {
-        name: "testUser",
-        date: 1,
-        weight: 150,
+        x: "2021-1-10",
+        y: 150,
     },
     {
-        name: "testUser",
-        date: 2,
-        weight: 152,
+        x: "2021-1-11",
+        y: 152,
     },
     {
-        name: "testUser",
-        date: 3,
-        weight: 149,
+        x: "2021-1-12",
+        y: 149,
     },
     {
-        name: "testUser",
-        date: 4,
-        weight: 160,
+        x: "2021-1-13",
+        y: 160,
     },
     {
-        name: "testUser",
-        date: 5,
-        weight: 150,
+        x: "2021-1-14",
+        y: 150,
     },
     {
-        name: "testUser",
-        date: 6,
-        weight: 152,
+        x: "2021-1-15",
+        y: 152,
+    },
+]
+
+export const userDataSec = [
+    {
+        x: 10203120312,
+        y: 160
     },
     {
-        name: "testUser",
-        date: 7,
-        weight: 149,
-    },
-    {
-        name: "testUser",
-        date: 8,
-        weight: 160,
-    },
+        x: 120312301230,
+        y: 110
+    }
 ]
