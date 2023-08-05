@@ -2,7 +2,7 @@ import React from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
 import Navbar from "./components/navbar";
 import { motion } from "framer-motion";
-import { Line } from 'react-chartjs-2';
+import { Line, Doughnut } from 'react-chartjs-2';
 import {userData, userDataSec} from "./components/data";
 import {Chart as ChartJS} from "chart.js/auto";
 import Button from '@mui/material/Button';
@@ -55,6 +55,22 @@ class Homepage extends React.Component {
                         type: "time",
                     }
                 },
+            },
+            optionsNutrition: {
+                responsive: true,
+                aspectRatio: 1,
+            },
+            nutritionData:{
+                labels: ["protein", "fat"],
+                datasets: [{
+                    label: "Nutrition",
+                    data: [100, 200],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                    ]
+                }],
+                hoverOffset: 4,
             },
             addWeight: 0,
             name: "PlaceHolder",
@@ -291,12 +307,17 @@ class Homepage extends React.Component {
                                 <div style = {{width: "100%", height: "10px"}}></div>
                             </div>
                         </Paper>
-                        <div style = {{width: "100%", height: "20px"}}></div>
+                        <div style = {{width: "100%", height: "10px"}}></div>
                         <Paper elevation = {5} sx = {{borderRadius: "20px"}}>
-                            <div style = {{width: "100%", height: "335px", display: "flex", flexDirection: "row"}}>
-                                <div style = {{width: "50%", height: "100%", borderRadius: "20px", flexDirection: "column", display: "flex"}}>
+                            <div style = {{width: "100%", height: "343px", display: "flex", flexDirection: "row"}}>
+                                <div style = {{width: "50%", height: "100%", borderRadius: "20px", flexDirection: "column", display: "flex", alignItems: "center"}}>
                                     <b style = {{width: "100%", textAlign: "center"}}>Nutrition Summary</b>
-
+                                    <div style = {{width: "60%", height: "70%", display: "flex", alignItems: "center"}}>
+                                        <Doughnut data = {this.state.nutritionData}></Doughnut>
+                                    </div>
+                                    <text style = {{width: "100%", textAlign: "center"}}>{"Calories: " + this.state.sumCalories}</text>
+                                    <text style = {{width: "100%", textAlign: "center"}}>{"Protein: " + this.state.sumProtein + " g"}</text>
+                                    <text style = {{width: "100%", textAlign: "center"}}>{"Fat: " + this.state.sumFats + " g"}</text>
                                 </div>
                                 <div style = {{width: "50%", height: "100%", borderRadius: "20px", display: "flex", flexDirection: "column"}}>
                                     <b style = {{width: "100%", textAlign: "center", paddingLeft: "15px"}}>Track Your Food Here</b>
