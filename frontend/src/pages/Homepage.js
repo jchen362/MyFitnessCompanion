@@ -20,6 +20,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import {
     LineElement,
@@ -262,6 +264,29 @@ class Homepage extends React.Component {
         return;
     }
 
+    analyzeWeightTrend() {
+        let weightArray = this.state.weightData.datasets[0].data;
+        let beginWeight = weightArray[0].y;
+        let endWeight = weightArray[weightArray.length - 1].y;
+        let difference = Math.abs(endWeight - beginWeight);
+        if (beginWeight == endWeight) {
+            return <text style = {{paddingTop: "10px"}}>You have remained the same weight since the beginning of your fitness goal!</text>
+        }
+        else if (beginWeight < endWeight) {
+            return <text style = {{paddingTop: "5px"}}>
+                {"You have gained " + difference + " pounds since the beginning of your fitness goal!"}
+                <ArrowUpwardIcon color = "success"/>
+                </text>
+        }
+        else {
+            return <text style = {{paddingTop: "5px"}}>
+                {"You have lost " + difference + " pounds since the beginning of your fitness goal!"}
+                <ArrowDownwardIcon color = "error"></ArrowDownwardIcon>
+                </text>
+        }
+
+    }
+
     async componentDidMount() {
         await this.downloadData(this.props);
         await this.getName(this.props);
@@ -303,6 +328,7 @@ class Homepage extends React.Component {
                                     }}>
                                         <AddCircleIcon/>
                                     </IconButton>
+                                    {this.analyzeWeightTrend()}
                                 </div>
                                 <div style = {{width: "100%", height: "10px"}}></div>
                             </div>
@@ -396,15 +422,13 @@ class Homepage extends React.Component {
                                 </p>
                                 <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
                                     {"Name: " + this.state.exerciseInfo.name}
-                                </p>
-                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    <br></br>
                                     {"Difficulty: " + this.state.exerciseInfo.difficulty}
-                                </p>
-                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    <br></br>
                                     {"Muscle Targetted: " + this.state.exerciseInfo.muscle}
-                                </p>
-                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    <br></br>
                                     {"Equipment: " + this.state.exerciseInfo.equipment}
+                                    <br></br>
                                 </p>
                                 <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
                                     {"Instructions: " + this.state.exerciseInfo.instructions}
