@@ -13,6 +13,13 @@ import 'chartjs-adapter-date-fns';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import exerciseImg from "./imgs/girl-doing-yoga.svg";
+import "./Homepage.css";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 import {
     LineElement,
@@ -51,7 +58,10 @@ class Homepage extends React.Component {
             },
             addWeight: 0,
             name: "PlaceHolder",
-            exerciseData: [],
+            exerciseInfo: {name: "dumbell curl", instructions: "curl the weight", difficulty: "beginner", muscle: "biceps", equipment: "barbell", type: "strength"},
+            foodName: "",
+            foodCalories: "",
+            foodProtein: "",
             
         };
 
@@ -138,6 +148,7 @@ class Homepage extends React.Component {
     }
 
     async downloadExercises(p) {
+        //https://api-ninjas.com/profile
         const response = await fetch('https://api.api-ninjas.com/v1/exercises?muscle=', {
             method: "GET",
             headers: {
@@ -147,7 +158,9 @@ class Homepage extends React.Component {
         });
 
         const exerciseData = await response.json();
-        this.setState({exerciseData: exerciseData});
+        const num = Math.floor(Math.random() * 10);
+        const exercise = exerciseData[num];
+        this.setState({exerciseInfo: exercise});
     }
 
     async getName(p) {
@@ -166,6 +179,55 @@ class Homepage extends React.Component {
         if (data.name != false) {
             this.setState({name: data.name});
         }
+    }
+
+    async submitFood(p) {
+        let token = p.location.state.token;
+        let name = this.state.foodName;
+        let calories = this.state.foodCalories;
+        let protein = this.state.foodProtein;
+        const response = await fetch("http://localhost:3001/api/submitFood", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                token,
+                name,
+                calories,
+                protein,
+            }),
+        });
+        const data = await response.json();
+
+        if (data.user == false) {
+            console.log("failed to upload nutrition data");
+        } else {
+            console.log("uploaded data successfully");
+            await this.downloadNutrition(p);
+        }
+    }
+
+    async downloadNutrition(p) {
+        let token = p.location.state.token;
+        const response = await fetch("http://localhost:3001/api/downloadNutrition", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                token,
+            }),
+        });
+
+        const data = await response.json();
+        if (data.user == false) {
+            console.log("downloaded nutrition data");
+            return;
+        }
+        
+        //Add nutrition data
+
     }
 
     async componentDidMount() {
@@ -209,6 +271,30 @@ class Homepage extends React.Component {
                                         <AddCircleIcon/>
                                     </IconButton>
                                 </div>
+                                <div style = {{width: "100%", height: "10px"}}></div>
+                            </div>
+                        </Paper>
+                        <div style = {{width: "100%", height: "20px"}}></div>
+                        <Paper elevation = {5} sx = {{borderRadius: "20px"}}>
+                            <div style = {{width: "100%", height: "335px", display: "flex", flexDirection: "row"}}>
+                                <div style = {{width: "50%", height: "100%", borderWidth: "1px", borderColor: "black", borderStyle: "solid", borderRadius: "20px", flexDirection: "column", display: "flex"}}>
+                                    <b style = {{width: "100%", textAlign: "center"}}>Nutrition Goals</b>
+
+                                </div>
+                                <div style = {{width: "50%", height: "100%", borderWidth: "1px", borderColor: "black", borderStyle: "solid", borderRadius: "20px", display: "flex", flexDirection: "column"}}>
+                                    <b style = {{width: "100%", textAlign: "center", paddingLeft: "15px"}}>Track Your Food Here</b>
+                                    <div style = {{width: "100%", height: "45px", display: "flex", flexDirection: "row", gap: "5px", justifyContent: "center"}}>
+                                        <TextField variant = "outlined" label = "Food" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
+                                        <TextField variant = "outlined" label = "Calories" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
+                                        <TextField variant = "outlined" label = "Protein" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
+                                        <IconButton>
+                                            <AddCircleIcon/>
+                                        </IconButton>
+                                    </div>
+                                    <div style = {{width: "90%", height: "240px", display: "flex", flexDirection: "column", borderStyle: "solid", borderWidth: "2px", paddingLeft: "34px"}}>
+
+                                    </div>
+                                </div>
                             </div>
                         </Paper>
                     </div>
@@ -228,9 +314,24 @@ class Homepage extends React.Component {
                         </Paper>
                         <div style = {{width: "100%", height: "15px"}}></div>
                         <Paper elevation = {5} sx = {{borderRadius: "20px"}}>
-                            <div style = {{width: "100%", height: "40%", display: "flex", flexDirection: "column"}}>
+                            <div style = {{width: "100%", height: "540px", display: "flex", flexDirection: "column", overflowY: "scroll", overflow: "hidden"}}>
                                 <p style = {{fontWeight: "bold", paddingLeft: "10px", fontSize: "30px"}}>
                                     Workout of the Day
+                                </p>
+                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    {"Name: " + this.state.exerciseInfo.name}
+                                </p>
+                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    {"Difficulty: " + this.state.exerciseInfo.difficulty}
+                                </p>
+                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    {"Muscle Targetted: " + this.state.exerciseInfo.muscle}
+                                </p>
+                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    {"Equipment: " + this.state.exerciseInfo.equipment}
+                                </p>
+                                <p style = {{paddingLeft: "10px", fontSize: "15px"}}>
+                                    {"Instructions: " + this.state.exerciseInfo.instructions}
                                 </p>
                             </div>
                         </Paper>
