@@ -75,13 +75,29 @@ app.post("/api/download", async (req, res) => {
             res.json({status: "no data found", user: req.body.token, data: false});
         }
     } catch (err) {
-        res.json({status: "server error getting weight data", user: false});
+        res.json({status: "server error getting weight data", user: false, data: false});
     }
 });
 
 //sendNutrition
-app.post("/api/downloadNutrition", (req, res) => {
-    //TODO
+app.post("/api/downloadNutrition", async (req, res) => {
+    if (!verify(req)) {
+        res.json({status: "invalid token", user: false});
+    }
+    const decoded = jwt.decode(req.body.token);
+    try {
+        const user = await Nutrition.find({
+            username: decoded.username,
+        });
+
+        if (user.length > 0) {
+            res.json({status: "returning nutrition data", user: req.body.token, data: user});
+        } else {
+            res.json({status: "no data found", user: req.body.token, data: false});
+        }
+    } catch (err) {
+        res.json({status: "server error getting nutrition data", user: false, data: false});
+    }
 });
 
 //uploadNutrition
@@ -95,12 +111,12 @@ app.post("/api/submitFood", async (req, res) => {
             username: decoded.username,
         });
         if (user) {
-            user.food.push({name: req.name, calories: parseInt(req.calories), protein: parseInt(req.protein)});
+            user.food.push({name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein)});
             await user.save();
         } else {
             await Nutrition.create({
                 username: decoded.username,
-                food: [],
+                food: [{name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein)}],
             })
         }
         res.json({status: "uploaded nutrition data", user: req.body.token});

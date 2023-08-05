@@ -62,6 +62,7 @@ class Homepage extends React.Component {
             foodName: "",
             foodCalories: "",
             foodProtein: "",
+            nutritionList: [],
             
         };
 
@@ -225,15 +226,18 @@ class Homepage extends React.Component {
             console.log("downloaded nutrition data");
             return;
         }
-        
         //Add nutrition data
-
+        const nutrition = data.data[0].food;
+        console.log(nutrition);
+        this.setState({nutritionList: nutrition});
+        return;
     }
 
     async componentDidMount() {
         await this.downloadData(this.props);
         await this.getName(this.props);
         await this.downloadExercises(this.props);
+        await this.downloadNutrition(this.props);
         //this.interval = setInterval(this.verifySession, 60000, this.props);
     }
 
@@ -284,10 +288,18 @@ class Homepage extends React.Component {
                                 <div style = {{width: "50%", height: "100%", borderWidth: "1px", borderColor: "black", borderStyle: "solid", borderRadius: "20px", display: "flex", flexDirection: "column"}}>
                                     <b style = {{width: "100%", textAlign: "center", paddingLeft: "15px"}}>Track Your Food Here</b>
                                     <div style = {{width: "100%", height: "45px", display: "flex", flexDirection: "row", gap: "5px", justifyContent: "center"}}>
-                                        <TextField variant = "outlined" label = "Food" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
-                                        <TextField variant = "outlined" label = "Calories" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
-                                        <TextField variant = "outlined" label = "Protein" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}}></TextField>
-                                        <IconButton>
+                                        <TextField variant = "outlined" label = "Food" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodName} onChange = {(e) => {
+                                            this.setState({foodName: e.target.value})
+                                        }}></TextField>
+                                        <TextField variant = "outlined" label = "Calories" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodCalories} onChange = {(e) => {
+                                            this.setState({foodCalories: e.target.value})
+                                        }}></TextField>
+                                        <TextField variant = "outlined" label = "Protein" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodProtein} onChange = {(e) => {
+                                            this.setState({foodProtein: e.target.value})
+                                        }}></TextField>
+                                        <IconButton onClick = {() => {
+                                            this.submitFood(this.props);
+                                        }}>
                                             <AddCircleIcon/>
                                         </IconButton>
                                     </div>

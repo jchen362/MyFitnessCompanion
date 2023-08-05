@@ -30,6 +30,9 @@ function Navbar(props) {
                             MyFitnessCompanion
                         </Button>
                         <div style = {{flexGrow: "1"}}></div>
+                        <Button variant="text" sx = {{fontSize: 15, color: "white"}}>
+                            About
+                        </Button>
                         <Button variant="text" sx = {{fontSize: 15, color: "white"}} onClick = {() => {
                             props.navigation("/", {state: {
                                 token: props.location.state.token,
