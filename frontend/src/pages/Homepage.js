@@ -62,7 +62,11 @@ class Homepage extends React.Component {
             foodName: "",
             foodCalories: "",
             foodProtein: "",
+            foodFat: "",
             nutritionList: [],
+            sumCalories: 0,
+            sumProtein: 0,
+            sumFats: 0,
             
         };
 
@@ -187,6 +191,7 @@ class Homepage extends React.Component {
         let name = this.state.foodName;
         let calories = this.state.foodCalories;
         let protein = this.state.foodProtein;
+        let fat = this.state.foodFat;
         const response = await fetch("http://localhost:3001/api/submitFood", {
             method: "POST",
             headers: {
@@ -197,6 +202,7 @@ class Homepage extends React.Component {
                 name,
                 calories,
                 protein,
+                fat,
             }),
         });
         const data = await response.json();
@@ -228,8 +234,15 @@ class Homepage extends React.Component {
         }
         //Add nutrition data
         const nutrition = data.data[0].food;
-        console.log(nutrition);
-        this.setState({nutritionList: nutrition});
+        let sumCalories = 0;
+        let sumProtein = 0;
+        let sumFats = 0;
+        for (let i = 0; i < nutrition.length; i++) {
+            sumCalories = sumCalories + nutrition[i].calories;
+            sumProtein = sumProtein + nutrition[i].protein;
+            sumFats = sumFats + nutrition[i].fat;
+        }
+        this.setState({nutritionList: nutrition, sumCalories: sumCalories, sumProtein: sumProtein, sumFats: sumFats});
         return;
     }
 
@@ -281,12 +294,13 @@ class Homepage extends React.Component {
                         <div style = {{width: "100%", height: "20px"}}></div>
                         <Paper elevation = {5} sx = {{borderRadius: "20px"}}>
                             <div style = {{width: "100%", height: "335px", display: "flex", flexDirection: "row"}}>
-                                <div style = {{width: "50%", height: "100%", borderWidth: "1px", borderColor: "black", borderStyle: "solid", borderRadius: "20px", flexDirection: "column", display: "flex"}}>
-                                    <b style = {{width: "100%", textAlign: "center"}}>Nutrition Goals</b>
+                                <div style = {{width: "50%", height: "100%", borderRadius: "20px", flexDirection: "column", display: "flex"}}>
+                                    <b style = {{width: "100%", textAlign: "center"}}>Nutrition Summary</b>
 
                                 </div>
-                                <div style = {{width: "50%", height: "100%", borderWidth: "1px", borderColor: "black", borderStyle: "solid", borderRadius: "20px", display: "flex", flexDirection: "column"}}>
+                                <div style = {{width: "50%", height: "100%", borderRadius: "20px", display: "flex", flexDirection: "column"}}>
                                     <b style = {{width: "100%", textAlign: "center", paddingLeft: "15px"}}>Track Your Food Here</b>
+                                    <div style = {{width: "100%", height: "5px"}}></div>
                                     <div style = {{width: "100%", height: "45px", display: "flex", flexDirection: "row", gap: "5px", justifyContent: "center"}}>
                                         <TextField variant = "outlined" label = "Food" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodName} onChange = {(e) => {
                                             this.setState({foodName: e.target.value})
@@ -297,14 +311,43 @@ class Homepage extends React.Component {
                                         <TextField variant = "outlined" label = "Protein" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodProtein} onChange = {(e) => {
                                             this.setState({foodProtein: e.target.value})
                                         }}></TextField>
+                                        <TextField variant = "outlined" label = "Fats" size = "small" sx = {{width: "90px", height: "10px", fontSize: "7px", paddingBottom: "5px"}} value = {this.state.foodFat} onChange = {(e) => {
+                                            this.setState({foodFat: e.target.value})
+                                        }}></TextField>
                                         <IconButton onClick = {() => {
                                             this.submitFood(this.props);
                                         }}>
                                             <AddCircleIcon/>
                                         </IconButton>
                                     </div>
-                                    <div style = {{width: "90%", height: "240px", display: "flex", flexDirection: "column", borderStyle: "solid", borderWidth: "2px", paddingLeft: "34px"}}>
-
+                                    <div style = {{width: "95%", height: "240px", display: "flex", flexDirection: "column", alignItems: "center"}} id = "hideScroll">
+                                        <TableContainer component = {Paper}>
+                                            <Table sx= {{minWidth: 200}} size = "small" aria-label = "a dense table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>Food</TableCell>
+                                                        <TableCell align = "right">Calories</TableCell>
+                                                        <TableCell align = "right">Protein</TableCell>
+                                                        <TableCell align = "right">Fat</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {this.state.nutritionList.map((row) => (
+                                                    <TableRow
+                                                        key={row.name}
+                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    >
+                                                        <TableCell component="th" scope="row">
+                                                        {row.name}
+                                                        </TableCell>
+                                                        <TableCell align="right">{row.calories}</TableCell>
+                                                        <TableCell align="right">{row.protein}</TableCell>
+                                                        <TableCell align="right">{row.fat}</TableCell>
+                                                    </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
                                     </div>
                                 </div>
                             </div>

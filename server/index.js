@@ -111,12 +111,12 @@ app.post("/api/submitFood", async (req, res) => {
             username: decoded.username,
         });
         if (user) {
-            user.food.push({name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein)});
+            user.food.push({name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein), fat: parseInt(req.body.fat)});
             await user.save();
         } else {
             await Nutrition.create({
                 username: decoded.username,
-                food: [{name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein)}],
+                food: [{name: req.body.name, calories: parseInt(req.body.calories), protein: parseInt(req.body.protein), fat: parseInt(req.body.fat)}],
             })
         }
         res.json({status: "uploaded nutrition data", user: req.body.token});
