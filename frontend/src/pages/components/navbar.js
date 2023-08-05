@@ -20,7 +20,7 @@ function Navbar(props) {
 
     return (
         <Box sx = {{ flexGrow: 1}}>
-            <AppBar position = "static" sx = {{bgcolor: "rgba(113, 176, 255, 0.8)"}}>
+            <AppBar position = "static" class = "anim_gradient">
                 <Toolbar>
                         <Button variant="text" sx = {{fontSize: 25, color: "white"}} onClick = {() => {
                             props.navigation("/homepage", {state: {

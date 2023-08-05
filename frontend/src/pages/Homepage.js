@@ -277,7 +277,7 @@ class Homepage extends React.Component {
     render() {
 
         return(
-            <motion.div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}
+            <motion.div style = {{width: "100%", height: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}
                 initial = {{opacity: 0}}
                 animate = {{opacity: 1}}
                 exit = {{opacity: 0}}
@@ -376,7 +376,7 @@ class Homepage extends React.Component {
                     </div>
                     <div style = {{width: "0.5%", height: "100%"}}></div>
                     {/**Right side */}
-                    <div style = {{width: "54.5%", height: "100%"}}>
+                    <div style = {{width: "54.5%", height: "95%"}}>
                         <div style = {{width: "100%", height: "15px"}}></div>
                         <Paper elevation = {5} sx = {{borderRadius: "20px"}}>
                             <div style = {{width: "100%", height: "40%", display: "flex", flexDirection: "column", backgroundImage: `url(${exerciseImg})`, backgroundRepeat: "no-repeat", backgroundPosition: "right 20px bottom 30px"}}>

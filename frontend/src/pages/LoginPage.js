@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { Link, useNavigate, navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./LoginPage.css";
+import Paper from '@mui/material/Paper';
 
 class LoginPage extends React.Component {
 
@@ -59,45 +60,63 @@ class LoginPage extends React.Component {
 
 
     return(
-        <motion.div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center"}}
+        <motion.div style = {{width: "100%", height: "100%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center", alignItems: "center"}}
             initial = {{opacity: 0}}
             animate = {{opacity: 1}}
             exit = {{opacity: 0}}
         >
             {/**Title screen and blank space */}
-            <div style = {{width:"100%", height:"100px"}}></div>
-            <div style = {{width: "100%", height: "50px", textAlign: "center", fontSize: "45px", fontFamily: "Roboto", color: "rgba(113, 176, 255, 0.8)"}}>
-                MyFitnessCompanion
+            <div style = {{minWidth: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center"}} class = "anim_gradient">
+            <div style = {{width: "100%", height: "80px"}}></div>
+            <div style = {{width: "40%", height: "70%", display: "flex", justifyContent: "center", flexDirection: "column", justifyItems: "center", borderRadius: "40px",  backgroundColor: "white"}}>
+                <Paper elevation = {10} sx = {{width: "100%", height: "100%", justifyContent: "center", flexDirection: "column", display: "flex", justifyItems: "center", borderRadius: "40px"}}>
+                <div style = {{width:"100%", height:"50px"}}></div>
+                <div style = {{width: "100%", height: "50px", textAlign: "center", fontSize: "45px", fontFamily: "Roboto", color: "rgba(113, 176, 255, 0.8)"}}>
+                    MyFitnessCompanion
+                </div>
+                <div style = {{width: "100%", height: "50px"}}></div>
+                <div style = {{width:"100%", height:"50px", textAlign: "center", fontSize: "30px", fontFamily: "Roboto"}}>
+                    Let's get Jacked Together!
+                </div>
+                {/**Username textfield */}
+                <TextField label = "Enter Email" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent}
+                    onChange = {(e) => {
+                        this.setState({usernameContent: e.target.value})
+                    }}/>
+                <div style = {{width: "100%", height: "20px"}}></div>
+                {/**Password textfield */}
+                <TextField label = "Enter Password" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} 
+                    InputProps = {{
+                        endAdornment: (
+                        <InputAdornment position = "start" onClick = {handlePasswordVisibility}>
+                            <KeyIcon/>
+                        </InputAdornment>),
+                    }}
+                type = {this.state.password} value = {this.state.passwordContent} onChange = {(e) => {
+                    this.setState({passwordContent: e.target.value})
+                }}></TextField>
+                {/**Button for Sign up and Log in */}
+                <div style = {{width: "100%", height: "20px"}}></div>
+                <div style = {{width: "100%", height: "40px", display:"flex", justifyContent: "center", flexDirection: "row"}}>
+                    <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}} onClick = {() => {
+                        this.submit();
+                    }}>Log in</Button>
+                    <div style = {{width: "20px", height: "100%"}}></div>
+                    <Link to = "signup" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Sign up</Link>
+                </div>
+                <div style = {{width:"100%", height:"20px"}}></div>
+                <div style = {{width: "100%", height: "100px", textAlign: "center"}}>
+                    If you want to test the website, a test user account has been made already!
+                    <br></br>
+                    <b>Username: test@gmail.com</b>
+                    <br></br>
+                    <b>Password: test</b>
+                    <br></br>
+                    Enjoy trying out MyFitnessCompanion!
+                </div> 
+                <div style = {{width: "100%", height: "20px"}}></div>
+                </Paper>          
             </div>
-            <div style = {{width: "100%", height: "50px"}}></div>
-            <div style = {{width:"100%", height:"50px", textAlign: "center", fontSize: "30px", fontFamily: "Roboto"}}>
-                Let's get Jacked Together!
-            </div>
-            {/**Username textfield */}
-            <TextField label = "Enter Email" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} value = {this.state.usernameContent}
-                onChange = {(e) => {
-                    this.setState({usernameContent: e.target.value})
-                }}/>
-            <div style = {{width: "100%", height: "20px"}}></div>
-            {/**Password textfield */}
-            <TextField label = "Enter Password" id="outlined-basic" variant="outlined" style = {{margin:"auto", width: "600px"}} 
-                InputProps = {{
-                    endAdornment: (
-                    <InputAdornment position = "start" onClick = {handlePasswordVisibility}>
-                        <KeyIcon/>
-                    </InputAdornment>),
-                }}
-            type = {this.state.password} value = {this.state.passwordContent} onChange = {(e) => {
-                this.setState({passwordContent: e.target.value})
-            }}></TextField>
-            {/**Button for Sign up and Log in */}
-            <div style = {{width: "100%", height: "20px"}}></div>
-            <div style = {{width: "100%", height: "40px", display:"flex", justifyContent: "center", flexDirection: "row"}}>
-                <Button variant="contained" sx = {{width: "100px", backgroundColor: "rgba(113, 176, 255, 0.8)"}} onClick = {() => {
-                    this.submit();
-                }}>Log in</Button>
-                <div style = {{width: "20px", height: "100%"}}></div>
-                <Link to = "signup" style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>Sign up</Link>
             </div>
         </motion.div>
     );}
