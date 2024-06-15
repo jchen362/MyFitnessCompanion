@@ -40,6 +40,10 @@ function verify(req) {
 }
 
 
+//testing
+app.get("/", async (req, res) => {
+    res.send("You got here!");
+})
 
 //getName
 app.post("/api/getName", async (req, res) => {
