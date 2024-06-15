@@ -7,6 +7,7 @@ const User = require("./models/user.model");
 const Weight = require("./models/weight.data");
 const Nutrition = require("./models/nutrition.data");
 const jwt = require("jsonwebtoken");
+const serverless = require("serverless-http");
 
 //middlewares
 app.use(cors());
@@ -15,12 +16,13 @@ app.use(express.json());
 //connect to mongodb database
 const uri = process.env.DATABASE;
 
-try {
-    mongoose.connect(uri);
-    console.log("connected to mongodb database successfully");
-} catch {
-    console.error("failure to connect to mongodb database");
+const connect = async () => {
+    await mongoose.connect(uri);
+    console.log("connected to mongodb database successfully");  
 }
+
+connect().catch((err) => {console.error("failure to connect to mongodb database")});
+
 
 //run server
 app.listen(3001, () => {
@@ -36,6 +38,8 @@ function verify(req) {
         return false;
     }
 }
+
+
 
 //getName
 app.post("/api/getName", async (req, res) => {
