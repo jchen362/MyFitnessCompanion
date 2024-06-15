@@ -227,14 +227,14 @@ app.post("/api/login", async (req, res) => {
 });
 
 const port = 3001;
-var server = https.createServer(options, app);
 var key = fs.readFileSync(__dirname + '/selfsigned.key');
 var cert = fs.readFileSync(__dirname + '/selfsigned.crt');
 var options = {
   key: key,
   cert: cert
 };
+var server = https.createServer(options, app);
 
-server.listen(options, port, () => {
+server.listen(port, () => {
   console.log("server starting on port : " + port)
 });
