@@ -224,5 +224,8 @@ app.post("/api/login", async (req, res) => {
     }
 
 });
-
-https.createServer(app).listen(3001)
+var options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  };
+https.createServer(options, app).listen(3001)
