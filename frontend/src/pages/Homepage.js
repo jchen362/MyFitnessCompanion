@@ -32,6 +32,8 @@ import {
     Legend
 } from 'chart.js';
 
+const port = "http://54.90.186.160";
+
 class Homepage extends React.Component {
     constructor(props) {
         super(props);
@@ -96,7 +98,7 @@ class Homepage extends React.Component {
             return;
         }
         let token = p.location.state.token;
-        const response = await fetch("http://localhost:3001/api/verify", {
+        const response = await fetch(`${port}/api/verify`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +119,7 @@ class Homepage extends React.Component {
     async uploadData(p) {
         let token = p.location.state.token;
         let weight = this.state.addWeight;
-        const response = await fetch("http://localhost:3001/api/upload", {
+        const response = await fetch(`${port}/api/upload`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -140,7 +142,7 @@ class Homepage extends React.Component {
 
     async downloadData(p) {
         let token = p.location.state.token;
-        const response = await fetch("http://localhost:3001/api/download", {
+        const response = await fetch(`${port}/api/download`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -188,7 +190,7 @@ class Homepage extends React.Component {
 
     async getName(p) {
         let token = p.location.state.token;
-        const response = await fetch("http://localhost:3001/api/getName", {
+        const response = await fetch(`${port}/api/getName`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -210,7 +212,7 @@ class Homepage extends React.Component {
         let calories = this.state.foodCalories;
         let protein = this.state.foodProtein;
         let fat = this.state.foodFat;
-        const response = await fetch("http://localhost:3001/api/submitFood", {
+        const response = await fetch(`${port}/api/submitFood`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -235,7 +237,7 @@ class Homepage extends React.Component {
 
     async downloadNutrition(p) {
         let token = p.location.state.token;
-        const response = await fetch("http://localhost:3001/api/downloadNutrition", {
+        const response = await fetch(`${port}/api/downloadNutrition`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ import "./LoginPage.css";
 import { motion } from "framer-motion";
 import Paper from '@mui/material/Paper';
 
+const port = "http://54.90.186.160";
 
 class SignUpPage extends React.Component {
 
@@ -26,7 +27,7 @@ class SignUpPage extends React.Component {
         let pass = this.state.passwordContent;
         let name = this.state.nameContent;
         console.log("attempting to send sign up info");
-        const response = await fetch("http://localhost:3001/api/register", {
+        const response = await fetch(`${port}/api/register`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

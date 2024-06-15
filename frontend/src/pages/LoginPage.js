@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import "./LoginPage.css";
 import Paper from '@mui/material/Paper';
 
+const port = "http://54.90.186.160";
 class LoginPage extends React.Component {
 
     constructor(props) {
@@ -23,7 +24,7 @@ class LoginPage extends React.Component {
         let user = this.state.usernameContent;
         let pass = this.state.passwordContent;
         console.log("attempting to login");
-        const response = await fetch("54.163.204.94:3001/api/login", {
+        const response = await fetch(`${port}/api/login`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
