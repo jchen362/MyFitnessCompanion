@@ -23,7 +23,7 @@ class LoginPage extends React.Component {
         let user = this.state.usernameContent;
         let pass = this.state.passwordContent;
         console.log("attempting to login");
-        const response = await fetch("http://localhost:3001/api/login", {
+        const response = await fetch("54.163.204.94:3001/api/login", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
