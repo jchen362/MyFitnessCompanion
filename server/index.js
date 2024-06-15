@@ -8,6 +8,7 @@ const Weight = require("./models/weight.data");
 const Nutrition = require("./models/nutrition.data");
 const jwt = require("jsonwebtoken");
 const serverless = require("serverless-http");
+const https = require('https');
 
 //middlewares
 app.use(cors());
@@ -25,9 +26,11 @@ connect().catch((err) => {console.error("failure to connect to mongodb database"
 
 
 //run server
+/*
 app.listen(3001, () => {
     console.log("Server has started on port 3001");
 });
+*/
 
 //verify function
 function verify(req) {
@@ -221,3 +224,5 @@ app.post("/api/login", async (req, res) => {
     }
 
 });
+
+https.createServer(app).listen(443)
