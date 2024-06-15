@@ -235,6 +235,6 @@ var options = {
   cert: cert
 };
 
-server.listen(port, () => {
+server.listen(options, port, () => {
   console.log("server starting on port : " + port)
 });
