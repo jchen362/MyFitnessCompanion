@@ -9,7 +9,7 @@ const Nutrition = require("./models/nutrition.data");
 const jwt = require("jsonwebtoken");
 const serverless = require("serverless-http");
 const https = require('https');
-
+const fs = require('fs');
 //middlewares
 app.use(cors());
 app.use(express.json());
