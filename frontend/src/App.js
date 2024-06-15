@@ -7,7 +7,7 @@ import {Homepage, HomePageWithRouter} from './pages/Homepage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path = "/" element = {<LoginWithRouter/>}></Route>
         <Route path = "/signup" element = {<SignUpWithRouter/>}></Route>
