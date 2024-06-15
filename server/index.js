@@ -26,10 +26,11 @@ connect().catch((err) => {console.error("failure to connect to mongodb database"
 
 
 //run server
-
+/*
 app.listen(3001, () => {
     console.log("Server has started on port 3001");
 });
+*/
 
 
 //verify function
@@ -223,4 +224,17 @@ app.post("/api/login", async (req, res) => {
         res.json({status: "wrong username and/or password", user: false});
     }
 
+});
+
+const port = 3001;
+var server = https.createServer(options, app);
+var key = fs.readFileSync(__dirname + '/server.key');
+var cert = fs.readFileSync(__dirname + '/server.crt');
+var options = {
+  key: key,
+  cert: cert
+};
+
+server.listen(port, () => {
+  console.log("server starting on port : " + port)
 });
