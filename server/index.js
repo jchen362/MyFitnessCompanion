@@ -25,8 +25,8 @@ connect().catch((err) => {console.error("failure to connect to mongodb database"
 
 
 //run server
-app.listen(443, () => {
-    console.log("Server has started on port 443");
+app.listen(3001, () => {
+    console.log("Server has started on port 3001");
 });
 
 //verify function
