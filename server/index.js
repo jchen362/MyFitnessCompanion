@@ -233,7 +233,9 @@ var options = {
   key: key,
   cert: cert
 };
+console.log("creating https server");
 var server = https.createServer(options, app);
+console.log("created https server");
 
 server.listen(port, () => {
   console.log("server starting on port : " + port)
